@@ -6,6 +6,8 @@ levelup that uses a leveldown that writes to a changes feed to store its state
 npm install changesdown
 ```
 
+[![build status](http://img.shields.io/travis/mafintosh/changesdown.svg?style=flat)](http://travis-ci.org/mafintosh/changesdown)
+
 ## Usage
 
 ``` js
