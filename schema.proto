@@ -1,0 +1,12 @@
+enum TYPE {
+  PUT = 1;
+  DEL = 2;
+  BATCH = 3;
+}
+
+message Entry {
+  required TYPE type = 1;
+  optional bytes key = 2;
+  optional bytes value = 3;
+  repeated Entry batch = 4; 
+}
