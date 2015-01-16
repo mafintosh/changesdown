@@ -13,3 +13,5 @@ module.exports = function(db, changes, opts) {
 }
 
 module.exports.encoding = require('./encoding')
+module.exports.encode = module.exports.encoding.encode
+module.exports.decode = module.exports.encoding.decode
