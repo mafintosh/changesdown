@@ -16,6 +16,31 @@ tape('works', function(t) {
   })
 })
 
+tape('batches', function(t) {
+  var feed = changes(memdb())
+  var db = changesdown(memdb(), feed)
+
+  db.batch([{
+    type: 'put',
+    key: new Buffer('hello'),
+    value: new Buffer('world')
+  }, {
+    type: 'put',
+    key: new Buffer('hej'),
+    value: new Buffer('verden')
+  }], function() {
+    db.get(new Buffer('hello'), function(err, val) {
+      t.notOk(err, 'no err')
+      t.same(val, new Buffer('world'))
+      db.get(new Buffer('hej'), function(err, val) {
+        t.notOk(err, 'no err')
+        t.same(val, new Buffer('verden'))
+        t.end()
+      })
+    })
+  })
+})
+
 tape('can reset db view', function(t) {
   var feed = changes(memdb())
   var db = changesdown(memdb(), feed)
