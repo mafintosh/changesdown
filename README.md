@@ -26,7 +26,7 @@ db.put('hello', 'world', function() {
 
 feed.createReadStream({live:true})
   .on('data', function(data) {
-    console.log('change:', changesdown.decode(data)) // should print some changes
+    console.log('change:', changesdown.decode(data.value)) // should print some changes
   })
 ```
 
