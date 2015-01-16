@@ -11,3 +11,5 @@ module.exports = function(db, changes, opts) {
 
   return levelup(db.location || 'no-location', opts)
 }
+
+module.exports.encoding = require('./encoding')
