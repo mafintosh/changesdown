@@ -9,7 +9,7 @@ var messages = require('protocol-buffers')(fs.readFileSync(__dirname+'/schema.pr
 var ChangesDOWN = function(location, changes, db) {
   if (!(this instanceof ChangesDOWN)) return new ChangesDOWN(location, changes, db)
   abstract.AbstractLevelDOWN.call(this, location)
-  
+
   this.leveldown = subdown(db, 'd')
   this.meta = subdown(db, 'm')
   this.changes = changes
@@ -81,7 +81,7 @@ ChangesDOWN.prototype._open = function(options, cb) {
           cb()
         })
       })
-    })    
+    })
   })
 }
 
