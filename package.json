@@ -11,7 +11,8 @@
     "levelup": "^0.19.0",
     "protocol-buffers": "^2.4.6",
     "pump": "^1.0.0",
-    "subleveldown": "^1.0.6"
+    "subleveldown": "^1.0.6",
+    "through2": "^0.6.3"
   },
   "devDependencies": {
     "changes-feed": "^1.0.0",
