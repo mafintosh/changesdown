@@ -1,6 +1,6 @@
 var util = require('util')
 var through = require('through2')
-var subdown = require('subleveldown/subdown')
+var subdown = require('subleveldown/leveldown')
 var abstract = require('abstract-leveldown')
 var pump = require('pump')
 var encoding = require('./encoding')
