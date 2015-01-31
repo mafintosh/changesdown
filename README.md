@@ -30,6 +30,15 @@ feed.createReadStream({live:true})
   })
 ```
 
+## API
+
+#### `db = changesdown(levelup, changesFeed, [options])`
+
+Returns a new levelup (`db`) that reads and writes from the changes feed.
+The levelup you pass in is used to store a view of the feed.
+
+Any options passed will be forwarded to the levelup constructor.
+
 ## License
 
 MIT
