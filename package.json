@@ -1,6 +1,6 @@
 {
   "name": "changesdown",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "levelup that uses a leveldown that writes to a changes feed to store its state",
   "main": "index.js",
   "scripts": {
