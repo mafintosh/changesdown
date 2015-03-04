@@ -24,9 +24,9 @@ db.put('hello', 'world', function() {
   })
 })
 
-feed.createReadStream({live:true})
+db.createChangesStream({live:true})
   .on('data', function(data) {
-    console.log('change:', changesdown.decode(data.value)) // should print some changes
+    console.log('change:', data.value) // should print some changes
   })
 ```
 
@@ -38,6 +38,14 @@ Returns a new levelup (`db`) that reads and writes from the changes feed.
 The levelup you pass in is used to store a view of the feed.
 
 Any options passed will be forwarded to the levelup constructor.
+
+#### `stream = db.createChangesStream(opts)`
+
+Read from the changes stream and decode the changes value
+with the same encoding that was used in the levelup.
+
+For example if you pass `{valueEncoding: 'json'}` the values
+will be decoded as JSON instead of buffers
 
 ## License
 
