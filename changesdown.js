@@ -4,14 +4,22 @@ var subdown = require('subleveldown/leveldown')
 var abstract = require('abstract-leveldown')
 var pump = require('pump')
 var encoding = require('./encoding')
+var defaultIndexer = function (batch, cb) {
+  cb(null, batch)
+}
 
-var ChangesDOWN = function(location, changes, db) {
-  if (!(this instanceof ChangesDOWN)) return new ChangesDOWN(location, changes, db)
+var opToBatch = function (op) {
+  return op.type === 'batch' ? op.batch : [op]
+}
+
+var ChangesDOWN = function(location, cOpts, db) {
+  if (!(this instanceof ChangesDOWN)) return new ChangesDOWN(location, cOpts, db)
   abstract.AbstractLevelDOWN.call(this, location)
 
   this.leveldown = subdown(db, 'd')
+  this.indexer = cOpts.indexer || defaultIndexer
   this.meta = subdown(db, 'm')
-  this.changes = changes
+  this.changes = cOpts.changes
   this.change = 0
   this.cbs = {}
 }
@@ -53,7 +61,7 @@ ChangesDOWN.prototype._open = function(options, cb) {
       if (err) return done(err)
       self.meta.put('indexed', ''+data.change, done)
     }
-    
+
     var done = function(err) {
       var saved = self.cbs[data.change]
       delete self.cbs[data.change]
@@ -61,11 +69,11 @@ ChangesDOWN.prototype._open = function(options, cb) {
       cb(err)
     }
 
-    if (value.type === 'put') return self.leveldown.put(value.key, value.value, predone)
-    if (value.type === 'del') return self.leveldown.del(value.key, predone)
-    if (value.type === 'batch') return self.leveldown.batch(value.batch, predone)
+    self.indexer(opToBatch(value), function (err, batch) {
+      if (err || !(batch && batch.length)) return predone(err)
 
-    cb()
+      self.leveldown.batch(batch, predone)
+    })
   }
 
   this.meta.open(options, function() {
