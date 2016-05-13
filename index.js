@@ -25,11 +25,14 @@ var decoder = function (name) {
   }
 }
 
-module.exports = function(db, changes, opts) {
+module.exports = function(db, cOpts, opts) {
+  // backwards compatibility
+  cOpts = cOpts.append ? { changes: cOpts } : cOpts
+
   if (!opts) opts = {}
 
   opts.db = function(location) {
-    return changesdown(location, changes, db)
+    return changesdown(location, cOpts, db)
   }
 
   var result = levelup(db.location || 'no-location', opts)
